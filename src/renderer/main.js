@@ -11,12 +11,12 @@ Vue.http = Vue.prototype.$http = axios;
 Vue.config.productionTip = false;
 
 const config = {
-  apiKey: 'AIzaSyA7nyVTExF1TZ5qFqE8wN0RTPWdBZNPJz4',
-  authDomain: 'motion-masternode-installer.firebaseapp.com',
-  databaseURL: 'https://motion-masternode-installer.firebaseio.com',
-  projectId: 'motion-masternode-installer',
-  storageBucket: 'motion-masternode-installer.appspot.com',
-  messagingSenderId: '661248216725',
+  apiKey: 'AIzaSyCccSMWaKOVy9p4OADhgoiPmVXRPNn65mk',
+  authDomain: 'gravium-mninstaller.firebaseapp.com',
+  databaseURL: 'https://gravium-mninstaller.firebaseio.com',
+  projectId: 'gravium-mninstaller',
+  storageBucket: 'gravium-mninstaller.appspot.com',
+  messagingSenderId: '505795540851',
 };
 window.firebase.initializeApp(config);
 
