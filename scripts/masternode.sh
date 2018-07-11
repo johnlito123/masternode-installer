@@ -51,7 +51,7 @@ fi
 echo "Your IP and Port is $IP:$PORT"
 if [ -n "$3" ]; then
     echo "Saving IP"
-    DOCUMENTID=$(curl https://us-central1-motion-masternode-installer.cloudfunctions.net/saveIp?ip=$IP)
+    DOCUMENTID=$(curl https://us-central1-gravium-mninstaller.cloudfunctions.net/saveIp?ip=$IP)
     echo "Your DocumentId is $DOCUMENTID"
 fi
 if [ -z "$2" ]; then
@@ -75,7 +75,7 @@ fi
 # Add swap if needed
 if [[ ("$add_swap" == "y" || "$add_swap" == "Y" || "$add_swap" == "") ]]; then
     if [ -n "$3" ]; then
-        curl "https://us-central1-motion-masternode-installer.cloudfunctions.net/step?id=${DOCUMENTID}&step=2"
+        curl "https://us-central1-gravium-mninstaller.cloudfunctions.net/step?id=${DOCUMENTID}&step=2"
     fi
 
     if [ ! -f /swapfile ]; then
@@ -100,7 +100,7 @@ fi
 # Update system 
 echo && echo "Upgrading system..."
 if [ -n "$3" ]; then
-    curl "https://us-central1-motion-masternode-installer.cloudfunctions.net/step?id=${DOCUMENTID}&step=3"
+    curl "https://us-central1-gravium-mninstaller.cloudfunctions.net/step?id=${DOCUMENTID}&step=3"
 fi
 sleep 3
 sudo apt-get -y update
@@ -109,7 +109,7 @@ sudo apt-get -y upgrade
 # Install required packages
 echo && echo "Installing base packages..."
 if [ -n "$3" ]; then
-    curl "https://us-central1-motion-masternode-installer.cloudfunctions.net/step?id=${DOCUMENTID}&step=4"
+    curl "https://us-central1-gravium-mninstaller.cloudfunctions.net/step?id=${DOCUMENTID}&step=4"
 fi
 sleep 3
 sudo apt-get -y install \
@@ -119,7 +119,7 @@ python-virtualenv
 # Install fail2ban if needed
 if [[ ("$install_fail2ban" == "y" || "$install_fail2ban" == "Y" || "$install_fail2ban" == "") ]]; then
     if [ -n "$3" ]; then
-        curl "https://us-central1-motion-masternode-installer.cloudfunctions.net/step?id=${DOCUMENTID}&step=5"
+        curl "https://us-central1-gravium-mninstaller.cloudfunctions.net/step?id=${DOCUMENTID}&step=5"
     fi
 
     echo && echo "Installing fail2ban..."
@@ -130,7 +130,7 @@ fi
 
 # Create config for gravium
 if [ -n "$3" ]; then
-    curl "https://us-central1-motion-masternode-installer.cloudfunctions.net/step?id=${DOCUMENTID}&step=7"
+    curl "https://us-central1-gravium-mninstaller.cloudfunctions.net/step?id=${DOCUMENTID}&step=7"
 fi
 echo && echo "Putting The Gears Motion..."
 sleep 3
@@ -157,7 +157,7 @@ masternode=1
 
 #Download pre-compiled gravium and run
 if [ -n "$3" ]; then
-    curl "https://us-central1-motion-masternode-installer.cloudfunctions.net/step?id=${DOCUMENTID}&step=8"
+    curl "https://us-central1-gravium-mninstaller.cloudfunctions.net/step?id=${DOCUMENTID}&step=8"
 fi
 mkdir gravium 
 mkdir gravium/src
@@ -165,6 +165,7 @@ cd gravium/src
 
 wget https://github.com/Gravium/gravium/releases/download/v1.0.2/graviumcore-1.0.2-linux64.tar.gz
 tar xzvf graviumcore-1.0.2-linux64.tar.gz
+cd graviumcore-1.0.2/bin
 
 chmod +x graviumd
 chmod +x gravium-cli
@@ -184,7 +185,7 @@ sleep 10
 
 # Download and install sentinel
 if [ -n "$3" ]; then
-    curl "https://us-central1-motion-masternode-installer.cloudfunctions.net/step?id=${DOCUMENTID}&step=9"
+    curl "https://us-central1-gravium-mninstaller.cloudfunctions.net/step?id=${DOCUMENTID}&step=9"
 fi
 echo && echo "Installing Sentinel..."
 sleep 3
@@ -210,7 +211,7 @@ echo && echo "Now we will wait until the node get full sync."
 
 COUNTER=0
 if [ -n "$3" ]; then
-    curl "https://us-central1-motion-masternode-installer.cloudfunctions.net/step?id=${DOCUMENTID}&step=10"
+    curl "https://us-central1-gravium-mninstaller.cloudfunctions.net/step?id=${DOCUMENTID}&step=10"
 fi
 while [ $COUNTER -lt $TOTALBLOCKS ]; do
     echo The current progress is $COUNTER/$TOTALBLOCKS
@@ -219,7 +220,7 @@ while [ $COUNTER -lt $TOTALBLOCKS ]; do
 done
 echo "Sync complete"
 if [ -n "$3" ]; then
-    curl "https://us-central1-motion-masternode-installer.cloudfunctions.net/step?id=${DOCUMENTID}&step=11"
+    curl "https://us-central1-gravium-mninstaller.cloudfunctions.net/step?id=${DOCUMENTID}&step=11"
 fi
 
 echo && echo "If you put correct PrivKey and VPS IP the daemon should be running."
