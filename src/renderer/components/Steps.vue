@@ -52,6 +52,7 @@ export default {
       margin: 0 auto 10px;
       position: relative;
       z-index: 100;
+      border: 1px solid $brand-color;
     }
 
     &.active {

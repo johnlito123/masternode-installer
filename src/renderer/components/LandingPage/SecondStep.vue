@@ -88,7 +88,7 @@ export default {
               } else if (this.currentVpsStep === 7) {
                 this.currentStatus = 'Putting gears in Motion...';
               } else if (this.currentVpsStep === 8) {
-                this.currentStatus = 'Downloading Motion in the server...';
+                this.currentStatus = 'Downloading Gravium in the server...';
               } else if (this.currentVpsStep === 9) {
                 this.currentStatus = 'Installing Sentinel...';
               } else if (this.currentVpsStep === 10) {
@@ -98,7 +98,7 @@ export default {
               }
               if (this.currentVpsStep === 11) {
                 fs.appendFileSync(this.mnConfPath,
-                  `\n${this.mnName} ${this.dropletIp}:7979 ${this.privKey} ${this.output.txid} ${this.output.txnumber}`);
+                  `\n${this.mnName} ${this.dropletIp}:11010 ${this.privKey} ${this.output.txid} ${this.output.txnumber}`);
                 this.$store.commit('SET_STEP', {
                   currentStep: 3,
                 });
@@ -113,12 +113,12 @@ export default {
     },
     createDroplet() {
       axios.post('https://api.digitalocean.com/v2/droplets', {
-        name: `xmn-${this.mnName}`,
+        name: `grv-${this.mnName}`,
         region: 'nyc3',
         size: 's-1vcpu-1gb',
         image: 'ubuntu-16-04-x64',
         ipv6: false,
-        tags: ['xmn', 'masternode'],
+        tags: ['grv', 'masternode'],
         user_data: `#cloud-config
 package_upgrade: true
 
@@ -129,7 +129,7 @@ packages:
   - curl
 
 runcmd:
-  - wget https://raw.githubusercontent.com/motioncrypto/motion-docs/master/scripts/masternode.sh
+  - wget https://raw.githubusercontent.com/Gravium/masternode-installer/master/scripts/masternode.sh
   - chmod +x masternode.sh
   - ./masternode.sh ${this.$store.state.Information.genkey} -y installer`,
       }, {

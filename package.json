@@ -1,8 +1,8 @@
 {
-  "name": "motion-mn-installer",
+  "name": "gravium-mn-installer",
   "version": "0.0.3",
   "author": "Omar Cruz <omar@motionproject.org>",
-  "description": "MotionProject Masternode Installer",
+  "description": "Gravium Masternode Installer",
   "license": null,
   "main": "./dist/electron/main.js",
   "scripts": {
@@ -23,8 +23,8 @@
     "postinstall": "npm run lint:fix"
   },
   "build": {
-    "productName": "Motion Masternode Installer",
-    "appId": "org.motionproject.mn-installer",
+    "productName": "Gravium Masternode Installer",
+    "appId": "io.gravium.mn-installer",
     "directories": {
       "output": "build"
     },

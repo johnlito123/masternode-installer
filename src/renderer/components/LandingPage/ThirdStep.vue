@@ -19,9 +19,9 @@ import os from 'os';
 const remote = require('electron').remote;
 const Client = require('motion-core');
 const client = new Client({
-  username: 'motion',
+  username: 'gravium',
   password: '47VMxa7GvxKaV3J',
-  port: 3385,
+  port: 11000,
 });
 
 export default {
@@ -79,7 +79,7 @@ export default {
         .stop()
         .then(() => {
           setTimeout(() => {
-            execFile(`${path.join(__static, `/daemon/${os.platform()}/motiond`).replace('app.asar', 'app.asar.unpacked')}`, ['-daemon', '-rpcuser=motion', '-rpcpassword=47VMxa7GvxKaV3J']);
+            execFile(`${path.join(__static, `/daemon/${os.platform()}/graviumd`).replace('app.asar', 'app.asar.unpacked')}`, ['-daemon', '-rpcuser=gravium', '-rpcpassword=47VMxa7GvxKaV3J']);
           }, 1000);
         });
     },

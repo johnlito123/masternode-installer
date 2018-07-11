@@ -1,8 +1,8 @@
 <template>
   <div id="first-step">
-    <p>Currently you have: <span class="amount">{{Math.floor(balance)}}</span>XMN</p>
+    <p>Currently you have: <span class="amount">{{Math.floor(balance)}}</span>GRV</p>
     <p class="mt20" v-if="balance >= 1000">We can continue.</p>
-    <p class="mt20" v-if="balance < 1000">We can't continue. You need at least 1000 XMN unlocked on your account.</p>
+    <p class="mt20" v-if="balance < 1000">We can't continue. You need at least 1000 GRV unlocked on your account.</p>
     <div class="separator"></div>
     <div v-if="balance >= 1000">
       <p>First, we need a good VPS:</p>
@@ -17,7 +17,7 @@
       </ul>
     </div>
     <div v-if="balance < 1000">
-      <p>You can get more XMN from our <a href="https://motionproject.org/#exchanges" @click="openLink($event, 'https://motionproject.org/#exchanges')" target="_blank">supported exchanges</a>.</p>
+      <p>You can get more GRV from our <a href="https://gravium.io/')" target="_blank">supported exchanges</a>.</p>
     </div>
     <modal name="passphrase" 
       :adaptive="true"
@@ -46,9 +46,9 @@ import { setTimeout } from 'timers';
 const { dialog } = require('electron').remote;
 const Client = require('motion-core');
 const client = new Client({
-  username: 'motion',
+  username: 'gravium',
   password: '47VMxa7GvxKaV3J',
-  port: 3385,
+  port: 11000,
 });
 
 export default {
@@ -60,7 +60,7 @@ export default {
       outputs: [],
       availableMasternodesToInstall: [],
       currentMasternodes: null,
-      xmnaddress: null,
+      grvaddress: null,
       passphrase: '',
       incorrectPassphrase: false,
     };
@@ -146,10 +146,10 @@ export default {
           .getNewAddress(this.mnName)
           .then((address) => {
             console.log('New Address Generated', address);
-            this.xmnaddress = address;
-            // Send 1000 XMN
+            this.grvaddress = address;
+            // Send 1000 GRV
             client
-              .sendToAddress(this.xmnaddress, 1000)
+              .sendToAddress(this.grvaddress, 1000)
               .then((txid) => {
                 console.log('txid', txid);
                 // Restart Install Masternode
@@ -185,14 +185,7 @@ export default {
     },
     getCurrentMasternodes() {
       let datadirPath = `${this.$store.state.Information.mnConfPath}/masternode.conf`;
-      // let datadirPath = `${os.userInfo().homedir}/AppData/Roaming/MotionCore/masternode.conf`;
-      // if (os.platform() === 'darwin') {
-      //   datadirPath =
-      //  `${os.userInfo().homedir}/Library/Application Support/MotionCore/masternode.conf`;
-      // }
-      // if (os.platform() === 'linux') {
-      //   datadirPath = `${os.userInfo().homedir}/.motioncore/masternode.conf`;
-      // }
+
 
       if (fs.existsSync(datadirPath)) {
         console.log('masternode.conf file found');
@@ -200,8 +193,8 @@ export default {
       } else {
         console.log('datadir', datadirPath);
         // eslint-disable-next-line
-        new window.Notification('Motion Datadir is not the default one', {
-          body: 'Please select your Motion Datadir manually',
+        new window.Notification('Gravium Datadir is not the default one', {
+          body: 'Please select your Gravium Datadir manually',
         });
         setTimeout(() => {
           datadirPath = dialog.showOpenDialog({
@@ -223,29 +216,6 @@ export default {
         .getInfo()
         .then((info) => {
           if (Object.prototype.hasOwnProperty.call(info, 'unlocked_until')) {
-            // userPrompt('First, we need to unlock your wallet, please input your Passphrase:',
-            //   'Your Passphrase', path.join(__static, '/icons/256x256.png'))
-            //   .then((input) => {
-            //     if (!input) {
-            //       this.checkForPassphrase();
-            //     } else {
-            //       client
-            //         .walletPassphrase(input, 5000)
-            //         .then(() => {
-            //           this.$store.commit('SET_PASSPHRASE', {
-            //             passphrase: input,
-            //           });
-            //         })
-            //         .catch((error) => {
-            //           if (error.code === -14) {
-            //             this.checkForPassphrase();
-            //           }
-            //         });
-            //     }
-            //   })
-            //   .catch((err) => {
-            //     console.log(err);
-            //   });
             this.$modal.show('passphrase');
           }
         });

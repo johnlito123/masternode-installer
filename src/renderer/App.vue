@@ -6,7 +6,7 @@
 
 <script>
   export default {
-    name: 'motion-mn-installer',
+    name: 'gravium-mn-installer',
   };
 </script>
 

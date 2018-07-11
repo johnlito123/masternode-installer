@@ -3,9 +3,9 @@ const electronOauth2 = require('electron-oauth2');
 const oauthConfig = require('./config').oauth;
 const Client = require('motion-core');
 const client = new Client({
-  username: 'motion',
+  username: 'gravium',
   password: '47VMxa7GvxKaV3J',
-  port: 3385,
+  port: 11000,
 });
 
 /**

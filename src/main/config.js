@@ -1,7 +1,7 @@
 module.exports = {
   oauth: {
-    clientId: 'cc94b705d0b308442abe85226684c887152d9e502c2d5c9851469c2a83049a73',
-    clientSecret: 'f8bb55384e1478304efd00753a17fbfd303ec206c8854805369a5030f181ae55',
+    clientId: '89efab09cdc6fbfccb7a1de3734c38b799ea070083fdddfeefe3cd5212d9b802',
+    clientSecret: '061bfffbb6e06f44cfd16be7c9a1bff5125cfd45ca91e4e4569a943da6a5c1d8',
     authorizationUrl: 'https://cloud.digitalocean.com/v1/oauth/authorize',
     tokenUrl: 'https://cloud.digitalocean.com/v1/oauth/token',
     useBasicAuthorizationHeader: false,
