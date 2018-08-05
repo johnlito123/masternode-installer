@@ -1,6 +1,6 @@
 {
   "name": "gravium-mn-installer",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Omar Cruz <omar@motionproject.org>",
   "description": "Gravium Masternode Installer",
   "license": null,
@@ -12,6 +12,7 @@
     "build:win": "node .electron-vue/build.js && electron-builder --win",
     "build:linux": "node .electron-vue/build.js && electron-builder --linux",
     "build:web": "cross-env BUILD_TARGET=web node .electron-vue/build.js",
+    "build:all": "node .electron-vue/build.js && electron-builder --dir && electron-builder --win && electron-builder --linux",
     "dev": "node .electron-vue/dev-runner.js",
     "lint": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter src test",
     "lint:fix": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter --fix src test",
