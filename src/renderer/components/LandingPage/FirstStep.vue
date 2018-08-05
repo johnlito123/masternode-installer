@@ -1,22 +1,22 @@
 <template>
   <div id="first-step">
     <p>Currently you have: <span class="amount">{{Math.floor(balance)}}</span>GRV</p>
-    <p class="mt20" v-if="balance >= 1000">We can continue.</p>
-    <p class="mt20" v-if="balance < 1000">We can't continue. You need at least 1000 GRV unlocked on your account.</p>
+    <p class="mt20" v-if="balance >= 1000.1">We can continue.</p>
+    <p class="mt20" v-if="balance < 1000.1">We can't continue. You need at least 1000 GRV unlocked on your account.</p>
     <div class="separator"></div>
-    <div v-if="balance >= 1000">
+    <div v-if="balance >= 1000.1">
       <p>First, we need a good VPS:</p>
       <img src="~@/assets/digitalocean.png" class="do-logo" alt="DigitalOcean" />
       <ul class="buttons">
         <li>
-          <button @click="loginWithDigitalOcean()">Login</button>
+          <button @click="openLink($event, 'https://cloud.digitalocean.com/v1/oauth/authorize?client_id=133496cabd7064889cb9822e303d4b52d56123177bf2b51eb3e228351ed7aac2&redirect_uri=https://gravium.io:2096/digitalocean-auth&response_type=code&scope=read write')">Login</button>
         </li>
         <li>
           <button @click="openLink($event, 'https://m.do.co/c/7ef716d06656')">Signup</button>
         </li>
       </ul>
     </div>
-    <div v-if="balance < 1000">
+    <div v-if="balance < 1000.1">
       <p>You can get more GRV from our <a href="https://gravium.io/')" target="_blank">supported exchanges</a>.</p>
     </div>
     <modal name="passphrase" 
@@ -73,7 +73,7 @@ export default {
   methods: {
     openLink($event, link) {
       $event.preventDefault();
-      shell.openExternal(link);
+      shell.openExternal(encodeURI(link));
     },
     getCurrentBalance() {
       client
@@ -236,9 +236,6 @@ export default {
           }
         });
     },
-    loginWithDigitalOcean() {
-      ipcRenderer.send('do-oauth', 'getToken');
-    },
   },
   mounted() {
     this.checkForPassphrase();
@@ -250,7 +247,7 @@ export default {
 
     ipcRenderer.on('do-oauth-reply', (event, accessToken) => {
       this.$store.commit('SET_ACCESS_TOKEN', {
-        accessToken: accessToken.access_token,
+        accessToken,
       });
       this.getCurrentMasternodes();
     });
