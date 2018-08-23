@@ -44,7 +44,7 @@ if [ "$KEY" == "" ]; then
     fi
 fi
 IP=$(curl http://icanhazip.com --ipv4)
-PORT="11010"
+PORT="41798"
 if [[ "$IP" == "" ]]; then
     read -e -p "VPS Server IP Address: " IP
 fi
@@ -97,7 +97,7 @@ if [[ ("$add_swap" == "y" || "$add_swap" == "Y" || "$add_swap" == "") ]]; then
 fi
 
 
-# Update system 
+# Update system and  
 echo && echo "Upgrading system..."
 if [ -n "$3" ]; then
     curl "https://us-central1-gravium-mninstaller.cloudfunctions.net/step?id=${DOCUMENTID}&step=3"
@@ -105,6 +105,27 @@ fi
 sleep 3
 sudo apt-get -y update
 sudo apt-get -y upgrade
+
+# Update system and Install Tor
+echo && echo "Installing Tor system..."
+if [ -n "$3" ]; then
+    
+fi
+        echo && echo "Adding swap space..."
+        sleep 3
+        sudo su -c "echo 'deb http://deb.torproject.org/torproject.org '$(lsb_release -c | cut -f2)' main' > /etc/apt/sources.list.d/torproject.list"
+	    gpg --keyserver keys.gnupg.net --recv A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89
+	    gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
+	    sudo apt-get update
+	    sudo apt-get install tor deb.torproject.org-keyring -y
+	    sudo usermod -a -G debian-tor $(whoami)
+
+	    sudo sed -i 's/#ControlPort 9051/ControlPort 9051/g' /etc/tor/torrc
+	    sudo sed -i 's/#CookieAuthentication 1/CookieAuthentication 1/g' /etc/tor/torrc 
+	    sudo su -c "echo 'CookieAuthFileGroupReadable 1' >> /etc/tor/torrc"
+	    sudo su -c "echo 'LongLivedPorts 9033' >> /etc/tor/torrc"
+        sudo systemctl restart tor.service
+
 
 # Install required packages
 echo && echo "Installing base packages..."
@@ -138,33 +159,33 @@ sudo mkdir /root/.graviumcore #jm
 
 rpcuser=`cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1`
 rpcpassword=`cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1`
-sudo touch /root/.graviumcore/gravium.conf
+sudo touch /root/.xuez/xuez.conf
 echo '
 rpcuser='$rpcuser'
 rpcpassword='$rpcpassword'
 rpcallowip=127.0.0.1
 listen=1
 server=1
-rpcport=11000
+rpcport=41798
 daemon=0 # required for systemd
 logtimestamps=1
 maxconnections=256
 externalip='$IP:$PORT'
 masternodeprivkey='$KEY'
 masternode=1
-' | sudo -E tee /root/.graviumcore/gravium.conf
+' | sudo -E tee /root/.xuez/xuez.conf
 
 
 #Download pre-compiled gravium and run
 if [ -n "$3" ]; then
     curl "https://us-central1-gravium-mninstaller.cloudfunctions.net/step?id=${DOCUMENTID}&step=8"
 fi
-mkdir gravium 
-mkdir gravium/src
-cd gravium/src
+mkdir xuez 
+mkdir xuez/src
+cd xuez/src
 
-wget https://github.com/Gravium/gravium/releases/download/v1.0.2/graviumcore-1.0.2-linux64.tar.gz
-tar xzvf graviumcore-1.0.2-linux64.tar.gz
+wget https://github.com/XUEZ/xuez/releases/download/1.0.1.10/xuez-linux-cli-10110.tgz
+tar xzvf xuez-linux-cli-10110.tgz
 cd graviumcore-1.0.2/bin
 
 chmod +x graviumd
